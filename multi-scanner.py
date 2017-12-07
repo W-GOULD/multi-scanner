@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
-# Python script to test for web servers that then check for vhosts
-# Example- ./vhost_fuzzer.py -t localhost -o test --pingsweep --services --virtualhosts \
-#                        --ignore-content-length 0 --ignore-http-codes 404 -w wordlist.txt
+# Python script to test for live hosts, services runnning on the hosts, virtual websites, web servers
+# Example- ./multi-scanner.py -t 127.0.0.1-3 -o test --pingsweep --virtualhosts -w wordlist.txt --service --discover-webservers
 
 # will.gould@cyberis.co.uk
 

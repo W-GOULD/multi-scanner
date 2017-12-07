@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.60 scan initiated Thu Dec  7 10:56:38 2017 as: nmap -sV -&#45;top-ports 50 -iL test/targets.txt -oA test/127.0.0.1-3.ss -->
+<nmaprun scanner="nmap" args="nmap -sV -&#45;top-ports 50 -iL test/targets.txt -oA test/127.0.0.1-3.ss" start="1512644198" startstr="Thu Dec  7 10:56:38 2017" version="7.60" xmloutputversion="1.04">
+<scaninfo type="syn" protocol="tcp" numservices="50" services="21-23,25-26,53,80-81,110-111,113,135,139,143,179,199,443,445,465,514-515,548,554,587,646,993,995,1025-1027,1433,1720,1723,2000-2001,3306,3389,5060,5666,5900,6001,8000,8008,8080,8443,8888,10000,32768,49152,49154"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1512644198" endtime="1512644205"><status state="up" reason="localhost-response" reason_ttl="0"/>
+<address addr="127.0.0.1" addrtype="ipv4"/>
+<hostnames>
+<hostname name="localhost" type="PTR"/>
+</hostnames>
+<ports><extraports state="closed" count="48">
+<extrareasons reason="resets" count="48"/>
+</extraports>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ssh" product="OpenSSH" version="7.6p1 Debian 2" extrainfo="protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:7.6p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="http" product="Apache httpd" version="2.4.29" hostname="127.0.1.1" method="probed" conf="10"><cpe>cpe:/a:apache:http_server:2.4.29</cpe></service></port>
+</ports>
+<times srtt="2" rttvar="0" to="100000"/>
+</host>
+<host starttime="1512644198" endtime="1512644205"><status state="up" reason="localhost-response" reason_ttl="0"/>
+<address addr="127.0.0.2" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="48">
+<extrareasons reason="resets" count="48"/>
+</extraports>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ssh" product="OpenSSH" version="7.6p1 Debian 2" extrainfo="protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:7.6p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="http" product="Apache httpd" version="2.4.29" hostname="127.0.1.1" method="probed" conf="10"><cpe>cpe:/a:apache:http_server:2.4.29</cpe></service></port>
+</ports>
+<times srtt="2" rttvar="0" to="100000"/>
+</host>
+<host starttime="1512644198" endtime="1512644205"><status state="up" reason="localhost-response" reason_ttl="0"/>
+<address addr="127.0.0.3" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="48">
+<extrareasons reason="resets" count="48"/>
+</extraports>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="ssh" product="OpenSSH" version="7.6p1 Debian 2" extrainfo="protocol 2.0" ostype="Linux" method="probed" conf="10"><cpe>cpe:/a:openbsd:openssh:7.6p1</cpe><cpe>cpe:/o:linux:linux_kernel</cpe></service></port>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="64"/><service name="http" product="Apache httpd" version="2.4.29" hostname="127.0.1.1" method="probed" conf="10"><cpe>cpe:/a:apache:http_server:2.4.29</cpe></service></port>
+</ports>
+<times srtt="2" rttvar="0" to="100000"/>
+</host>
+<runstats><finished time="1512644205" timestr="Thu Dec  7 10:56:45 2017" elapsed="6.56" summary="Nmap done at Thu Dec  7 10:56:45 2017; 3 IP addresses (3 hosts up) scanned in 6.56 seconds" exit="success"/><hosts up="3" down="0" total="3"/>
+</runstats>
+</nmaprun>
