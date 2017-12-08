@@ -21,22 +21,10 @@
 import sys
 import subprocess as SP
 import os
-import multiprocessing
 import socket
-import time
 import requests
-import hashlib
-import re
-import urllib
 
 from argparse import ArgumentParser
-
-
-def print_banner():
-    print("*" * 50)
-    print("\n" + " " * 20 + "VHOST FUZZER \n")
-    print("*" * 50)
-
 
 def main():
     parser = ArgumentParser()
@@ -108,20 +96,16 @@ def main():
     ss_output = arguments.service_scan_output
 
     if len(sys.argv) == 1:
-        print_banner()
         parser.error("No arguments. Please Provide arguments.")
         sys.exit()
 
     #  HOST DISCOVERY
     if arguments.ping_sweep is True:
-
         print("[#] Performing ping sweep")
         print("[+] Writing discovered targets to: %s" % output_file)
         live_hosts = 0
         f = open(output_file, 'w')
-
         print("[+] Performing ping sweep over %s" % target_hosts)
-
         SWEEP = "nmap -n -sS -p0- %s" % (target_hosts)
         results = SP.check_output(SWEEP, shell=True, bufsize=1, stderr=SP.PIPE)
         print ("    [>] Ping Sweep results")
@@ -156,30 +140,35 @@ def main():
     if arguments.discover_web_servers is True:
         print("[#] Attempting to find web servers")
         print("[+] If successful it will store the output to web_servers.txt")
+        w = web_server_discover()
         if arguments.perform_service_scan is True:
             print("[#] Found Service scan output. Using this to determine web servers")
             f = output_directory + "/" + target_hosts + ".ss.gnmap"
-            w = web_server_discover()
             w.discover(f,web_servers_output)
         else:
-            print ("[#] No service Scan Output found using output provided.")
+            print ("[#] No service Scan flag used. Using output specified.")
             if ss_output == False:
                 print("[!] No output provided")
             else:
-                print("[+] Found output. Starting the web server discovery.")
+                print("[+] Starting the web server discovery.")
                 f = ss_output
-                w = web_server_discover()
                 w.discover(f,web_servers_output)
 
     #  vhost fuzzer
     if arguments.virtualhosts is True:
         print("[#] Performing VHOST fuzzing")
-        scanner = virtual_host_scanner(
-            output_file,
-            arguments.output_directory,
-            arguments.port,
-            arguments.wordlist)
-        scanner.scan()
+        if arguments.discover_web_servers is True:
+            scanner = virtual_host_scanner(web_servers_output,
+                                           arguments.output_directory,
+                                           arguments.port,
+                                           arguments.wordlist)
+            scanner.scan()
+        else:
+            scanner = virtual_host_scanner(output_file,
+                                           arguments.output_directory,
+                                           arguments.port,
+                                           arguments.wordlist)
+            scanner.scan()
 
 #                               CLASSES
 class bcolors:
@@ -202,7 +191,7 @@ class status_c:
         else:
             return bcolors.R + str(code) + bcolors.ENDC
 
-class web_server_discover(object):
+class web_server_discover:
 
     def __int__(self,output, web_servers_output):
         self.output = output
@@ -210,27 +199,28 @@ class web_server_discover(object):
 
     def discover(self, output, web_servers_output):
         web_keys = ['80/open', '443/open', '8080/open', '//http//']
+
         w = open(web_servers_output, "w")
         f = open(output)
+
         ips = []
         lines = f.readlines()
+
         print("[+] grabbing output from service scan")
+
         for line in lines:
             line = line.strip()
             line = line.rstrip()
-            # print (line)
-            if ("Ports:" in line):
+            if "Ports:" in line:
                 for wk in web_keys:
                     if wk in line:
-                        # ip = re.findall(r'[0-9]+(?:\.[0-9]+){3}', line)
                         ip = line.split(" ")[1]
                         ips.append(ip)
                         i = list(set(ips))
-                        print (i)
-                    else:
-                        continue
+
         print("[#] Writing ips found to output file.")
-        w.write('%s' % (i))
+
+        w.write('\n'.join(i))
         w.write('\n')
         w.close()
 
@@ -310,7 +300,6 @@ class virtual_host_scanner(object):
                     res.headers.get('content-type'),
                     res.headers.get('server'),
                     ip)
-                # print("   [>] Writing output to file")
                 f.write('\n')
                 f.write('%s' % (output))
                 results += output + '\n'
